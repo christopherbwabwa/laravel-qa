@@ -9,14 +9,15 @@
                         <div class="d-flex align-items-center">
                             <h2>All Questions</h2>
                             <div class="ml-auto">
-                                <a href="{{ route('questions.create') }}" class="btn btn-outline-secondary">Ask Question</a>
+                                <a href="{{ route('questions.create') }}" class="btn btn-outline-secondary">Ask
+                                    Question</a>
                             </div>
                         </div>
                     </div>
 
                     <div class="card-body">
                         @include('layouts._message')
-                        
+
                         @foreach ($questions as $question)
                             <div class="media">
                                 <div class="d-flex flex-column counters">
@@ -37,18 +38,28 @@
                                 </div>
                                 <div class="media-body">
                                     <div class="d-flex align-items-center">
-                                        <h3 class="mt-0"> <a href="{{ $question->url }}"> {{ $question->title }} </a></h3>
+                                        <h3 class="mt-0"> <a href="{{ $question->url }}">
+                                                {{ $question->title }} </a></h3>
                                         <div class="ml-auto">
-                                            <a href="{{ route('questions.edit', $question->id )}}" class="btn btn-sm btn-outline-info">Edit</a>
-                                            <form class="form-delete" method="POST" action="{{ route('questions.destroy', $question->id)}}">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure ?')">Delete</button>
-                                            </form>
+
+                                            @can('update', $question)
+                                                <a href="{{ route('questions.edit', $question->id) }}"
+                                                    class="btn btn-sm btn-outline-info">Edit</a>
+                                            @endcan
+                                            @can('delete', $question)
+                                                <form class="form-delete" method="POST"
+                                                    action="{{ route('questions.destroy', $question->id) }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                        onclick="return confirm('Are you sure ?')">Delete</button>
+                                                </form>
+                                            @endcan
+
                                         </div>
                                     </div>
 
-                                     
+
                                     <p class="lead">
                                         Asked by
                                         <a href="{{ $question->user->url }}">{{ $question->user->name }}</a>
