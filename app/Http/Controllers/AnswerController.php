@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AnswerController extends Controller
 {
-   
+     
     /**
      * Store a newly created resource in storage.
      *
@@ -66,8 +66,13 @@ class AnswerController extends Controller
      * @param  \App\Answer  $answer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Answer $answer)
+    public function destroy(Question $question, Answer $answer)
     {
-        //
+        $this->authorize('delete', $answer);
+
+        $answer->delete();
+
+        return back()->with('success', 'Your answer has been remeoved.');
+
     }
 }
