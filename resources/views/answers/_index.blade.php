@@ -20,11 +20,26 @@
                             <a title="This answer is not useful" class="vote-down off">
                                 <i class="fas fa-caret-down fa-3x"></i>
                             </a>
-
-                            <a title="Mark this answer as best answer"
-                                class="{{ $answer->status }} mt-2">
+                            @can('accept', $answer)
+                                <a title="Mark this answer as best answer" class="{{ $answer->status }} mt-2"
+                                    onclick="event.preventDefault(); document.getElementById('accept-answer-{{ $answer->id }}').submit();">
+                                    <i class="fas fa-check fa-2x"></i>
+                                    <form id="accept-answer-{{ $answer->id }}"
+                                        action="{{ route('answers.accept', $answer->id) }}" method="POST"
+                                        style="display: :none;">
+                                        @csrf
+                                    </form>
+                                </a>
+                            @else
+                                @if ($answer->is_best)
+                                
+                                <a title="Mark this answer as best answer" class="{{ $answer->status }} mt-2" >
                                 <i class="fas fa-check fa-2x"></i>
-                            </a>
+
+                                @endif
+                            @endcan
+
+
                         </div>
                         <div class="media-body">
                             {!! $answer->body_html !!}
@@ -47,7 +62,7 @@
                                         @endcan
 
                                     </div>
-                                    
+
                                     <div class="col-4"> </div>
 
                                     <div class="col-4">
@@ -56,7 +71,7 @@
                                             <a href="{{ $answer->user->url }}" class="pr-2">
                                                 <img src="{{ $answer->user->avatar }}" height="40px" width="40px">
                                             </a>
-        
+
                                             <div class="media-body mt-2">
                                                 <a href="{{ $answer->user->url }}">{{ $answer->user->name }}</a>
                                             </div>
@@ -65,7 +80,7 @@
 
                                 </div>
                             </div>
-                            
+
                         </div>
                     </div>
 
