@@ -10,7 +10,7 @@ class Answer extends Model
     
     protected $fillable = ['body', 'user_id'];
 
-    protected $appends = ['created_date'];
+    protected $appends = ['created_date', 'body_html'];
 
     public function question()
     {
@@ -19,6 +19,7 @@ class Answer extends Model
 
     public function user()
     {
+        
         return $this->belongsTo(User::class);
     }
 
@@ -37,6 +38,8 @@ class Answer extends Model
         });
 
         static::deleted(function($answer){
+
+            
             $question = $answer->question;
             $question->decrement('answers_count');
             if($question->best_answer_id === $answer->id)
@@ -54,7 +57,7 @@ class Answer extends Model
     }
 
     public function getStatusAttribute()
-    {    
+    {
         return $this->isBest() ? 'vote-accepted' : '';
     }
 
@@ -62,10 +65,10 @@ class Answer extends Model
     {
         return $this->isBest();
     }
-    
+
     public function isBest()
     {
         return $this->id === $this->question->best_answer_id;
-    }
+    }   
 
 }
