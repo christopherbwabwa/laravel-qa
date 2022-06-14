@@ -1,6 +1,5 @@
 <template>
-     <div class="media post">
-
+    <div class="media post">
         <vote :model="answer" name="answer"></vote>
         
         <div class="media-body">
@@ -15,14 +14,9 @@
                 <div v-html="bodyHtml"></div>
                 <div class="row">
                     <div class="col-4">
-                        <div class="ml-auto">
-                            
-
-                                <a v-if="authorize('modify', answer)" @click.prevent="edit" class="btn btn-sm btn-outline-info">Edit</a>
-                                
-                                <button v-if="authorize('modify', answer)" @click="destroy" class="btn btn-sm btn-outline-danger" >Delete</button>
-                               
-                        
+                        <div class="ml-auto">                            
+                            <a v-if="authorize('modify', answer)" @click.prevent="edit" class="btn btn-sm btn-outline-info">Edit</a>                                                        
+                            <button v-if="authorize('modify', answer)" @click="destroy" class="btn btn-sm btn-outline-danger">Delete</button>                                                            
                         </div>
                     </div>
                     <div class="col-4"></div>
@@ -64,15 +58,13 @@ export default {
             .then(res => {                
                 this.editing = false;
                 this.bodyHtml = res.data.body_html;
-                this.$toast.success(res.data.message, "Success", { timeout: 3000 });
+                this.$toast.success(res.data.message, "Sucess", { timeout: 3000 });
             })
             .catch(err => {
-                this.$toast.success(err.response.data.message, "Error", { timeout: 3000 });               
+                this.$toast.error(err.response.data.message, "Error", { timeout: 3000 });                
             });
         },   
-        
         destroy () {
-
             this.$toast.question('Are you sure about that?', "Confirm", {
             timeout: 20000,
             close: false,
@@ -80,35 +72,28 @@ export default {
             displayMode: 'once',
             id: 'question',
             zindex: 999,
-            title: 'Hey',
+            title: 'Hey',            
             position: 'center',
             buttons: [
                 ['<button><b>YES</b></button>', (instance, toast) => {
-
-                        axios.delete(this.endpoint)
-                        .then( res => {
-                           this.$emit('deleted')
-                        });
-                
+                    
+                    axios.delete(this.endpoint)
+                    .then(res => {
+                        this.$emit('deleted')
+                    });
                     instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
-        
                 }, true],
                 ['<button>NO</button>', function (instance, toast) {
-        
                     instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
-        
                 }],
-            ],
-           
-        });
-            
-        }
+            ]            
+            });            
+        }     
     },
     computed: {
         isInvalid () {
             return this.body.length < 10;
         },
-
         endpoint () {
             return `/questions/${this.questionId}/answers/${this.id}`;
         }
