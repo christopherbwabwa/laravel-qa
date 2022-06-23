@@ -87,6 +87,13 @@ class QuestionController extends Controller
     {
         $question->update($request->only('title', 'body'));
 
+        if($request->expectsJson()){
+            return response()->json([
+                'message' => "Your question has been updated",
+                'body_html' => $question->body_html
+            ]);
+        }
+
         return redirect('/questions')->with('success', 'Your question has been updated');
     }
 
@@ -99,6 +106,12 @@ class QuestionController extends Controller
     public function destroy(Question $question)
     {
         $this->authorize('delete', $question);
+
+        if(request()->expectsJson()) {
+            return response()->json([
+                'message' => "Your question has been deleted!"
+            ]);
+        }
 
         $question->delete();
 

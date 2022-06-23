@@ -1,5 +1,5 @@
 <template>
-   <div>
+    <div>
         <div class="row mt-4" v-cloak v-if="count">
             <div class="col-md-12">
                 <div class="card">
@@ -19,14 +19,12 @@
             </div>
         </div>
         <new-answer @created="add" :question-id="question.id"></new-answer>
-   </div>
-
+    </div>
 </template>
 
 <script>
 import Answer from './Answer.vue';
 import NewAnswer from './NewAnswer.vue';
-
 export default {
     props: ['question'],
     data () {
@@ -41,12 +39,11 @@ export default {
         this.fetch(`/questions/${this.questionId}/answers`);
     },
     methods: {
-
-        add(answer){
+        add (answer) {
             this.answers.push(answer);
             this.count++;
         },
-
+        
         remove (index) {
             this.answers.splice(index, 1);
             this.count--;

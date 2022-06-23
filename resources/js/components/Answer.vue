@@ -30,6 +30,10 @@
 </template>
 
 <script>
+
+import Vote from './Vote.vue';
+import UserInfo from './UserInfo.vue';
+
 export default {
     props: ['answer'],
     data () {
@@ -42,6 +46,9 @@ export default {
             beforeEditCache: null
         }
     },
+
+     components: { Vote, UserInfo },
+     
     methods: {
         edit () {
             this.beforeEditCache = this.body;
