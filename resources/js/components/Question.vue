@@ -57,21 +57,18 @@
 </template>
 
 <script>
-
 import Vote from './Vote.vue';
 import UserInfo from './UserInfo.vue';
 import modification from '../mixins/modification';
-
 export default {
     props: ['question'],
-    components: { Vote, UserInfo },
     mixins: [modification],
-
+    components: { Vote, UserInfo },
     data () {
         return {
             title: this.question.title,
             body: this.question.body,
-            bodyHtml: this.question.body_html,
+            bodyHtml: this.question.body_html,            
             id: this.question.id,
             beforeEditCache: {}
         }
@@ -89,33 +86,27 @@ export default {
             this.beforeEditCache = {
                 body: this.body,
                 title: this.title
-            };
+            };            
         },
         restoreFromCache () {
             this.body = this.beforeEditCache.body;
-            this.title = this.beforeEditCache.title;
-            this.editing = false;
+            this.title = this.beforeEditCache.title;            
         },
-        
-        payload(){
+        payload () {
             return {
                 body: this.body,
                 title: this.title
-            }
+            };
         },
-
-
-       delete()
-       {
-        axios.delete(this.endpoint)
-                .then(({res}) => {
-                this.$toast.success(res.data.message, "Success", { timeout: 2000 });
+        delete () {
+            axios.delete(this.endpoint)
+                .then(({data}) => {
+                    this.$toast.success(data.message, "Success", { timeout: 2000 });
                 });
-        
-        setTimeout(() => {
-                window.location.href = "/questions";
-            }, 3000);
-       }
+                setTimeout(() => {
+                    window.location.href = "/questions";
+                }, 3000);
+        }
     }
 }
 </script>

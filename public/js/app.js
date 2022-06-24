@@ -4254,11 +4254,11 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['question'],
+  mixins: [_mixins_modification__WEBPACK_IMPORTED_MODULE_2__["default"]],
   components: {
     Vote: _Vote_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     UserInfo: _UserInfo_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  mixins: [_mixins_modification__WEBPACK_IMPORTED_MODULE_2__["default"]],
   data: function data() {
     return {
       title: this.question.title,
@@ -4286,7 +4286,6 @@ __webpack_require__.r(__webpack_exports__);
     restoreFromCache: function restoreFromCache() {
       this.body = this.beforeEditCache.body;
       this.title = this.beforeEditCache.title;
-      this.editing = false;
     },
     payload: function payload() {
       return {
@@ -4298,9 +4297,9 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios["delete"](this.endpoint).then(function (_ref) {
-        var res = _ref.res;
+        var data = _ref.data;
 
-        _this.$toast.success(res.data.message, "Success", {
+        _this.$toast.success(data.message, "Success", {
           timeout: 2000
         });
       });

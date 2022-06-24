@@ -14,23 +14,27 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/','QuestionController@index');
+Auth::routes( ['verify' => true]);
 
-Auth::routes();
+Route::middleware('verified')->group( function () {
 
-Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('questions', 'QuestionController')->except('show');
+    Route::resource('questions', 'QuestionController')->except('show', 'index');
 
-Route::resource('questions.answers', 'AnswerController')->except('create', 'show');
+    Route::resource('questions.answers', 'AnswerController')->except('create', 'show');
+
+    Route::post('answers/{answer}/accept', 'AcceptAnswerController')->name('answers.accept');
+
+    Route::post('questions/{question}/favorites', 'FavoritesController@store')->name('questions.favorite');
+
+    Route::delete('questions/{question}/favorites', 'FavoritesController@destroy')->name('questions.unfavorite');
+
+    Route::post('/questions/{question}/vote', 'VoteQuestionController');
+
+    Route::post('/answers/{answer}/vote', 'VoteAnswerController');
+
+});
 
 Route::get('/questions/{slug}', 'QuestionController@show')->name('questions.show');
-
-Route::post('answers/{answer}/accept', 'AcceptAnswerController')->name('answers.accept');
-
-Route::post('questions/{question}/favorites', 'FavoritesController@store')->name('questions.favorite');
-
-Route::delete('questions/{question}/favorites', 'FavoritesController@destroy')->name('questions.unfavorite');
-
-Route::post('/questions/{question}/vote', 'VoteQuestionController');
-
-Route::post('/answers/{answer}/vote', 'VoteAnswerController');
+Route::get('/questions', 'QuestionController@index')->name('questions.index');
