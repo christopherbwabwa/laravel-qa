@@ -10,7 +10,7 @@
 
 ## How to install ?
 
-- After downloanding the application here are the steps:
+- After downloading the application here are the steps:
 - run the command composer install
 - run npm install & npm run dev
 - register a new user via the register form & enjoy :)
