@@ -10962,6 +10962,10 @@ a.text-dark:focus {
   }
 }
 
+body {
+  background: #f5f8fa;
+}
+
 .counters {
   margin-right: 30px;
   font-size: 10px;

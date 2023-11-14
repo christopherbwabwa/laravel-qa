@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/','QuestionController@index');
+
 Auth::routes( ['verify' => true]);
 
 Route::middleware('verified')->group( function () {
